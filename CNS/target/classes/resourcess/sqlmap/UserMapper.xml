@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">
+	
+	<insert id="insertUser" parameterType="uservo">
+		insert into userTB(userid, username, email, password, regdate, point, login_YN, login_cnt)
+		values (#{userid}, #{username}, #{email}, #{password}, getdate(), 100, 'Y', 0)
+	</insert>
+	
+	<select id="finduser" parameterType="String" resultType="uservo">
+		select * from userTB where userid = #{userid}
+	</select>
+	
+	<select id="userList" resultType="uservo">
+		select * from userTB
+	</select>
+	
+	<update id="updateUser" parameterType="uservo">
+		update userTB set password = #{password}, login_cnt = #{login_cnt}, login_YN = #{login_YN}
+		where userid = #{userid}
+	</update>
+	
+	<select id="finduseremail" parameterType="String" resultType="uservo">
+		select * from userTB where email = #{email}
+	</select>
+
+</mapper>

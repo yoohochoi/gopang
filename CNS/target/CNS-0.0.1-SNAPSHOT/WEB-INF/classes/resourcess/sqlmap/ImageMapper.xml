@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="image">
+	
+	
+	<insert id="addimg" parameterType="imagevo">
+		insert into imag(userid, nicname, title, imagName, content, regdate)
+		values (#{userid}, #{nicname}, #{title}, #{imagName}, #{content}, getdate())
+	</insert>
+	
+	<select id="listImage" resultType="imagevo" parameterType="imagevo">
+		select * from (select (row_number() over(order by imagseq desc)) rownum, * from imag ) as aa
+		where rownum between #{start} and #{end}
+	</select>
+	
+	<select id="detailimage" parameterType="String" resultType="imagevo">
+		select * from imag where imagseq = #{imagseq}
+	</select>
+	
+	<delete id="deleteimage" parameterType="String">
+		delete from imag where imagseq = #{imagseq}
+	</delete>
+	
+	<select id="totalcount" resultType="int">
+		select count(0) from imag
+	</select>
+	
+	
+	
+	
+
+</mapper>

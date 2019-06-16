@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="comment">
+	
+	<insert id="addComment" parameterType="commentvo">
+		insert into comment(parent, depth, seq, imageseq, userid, username, comment, regdate)
+		values(#{parent}, #{depth}, #{seq}, #{imageseq}, #{userid}, #{username}, #{comment}, getdate())
+	</insert>
+	
+	
+	<select id="listcomment" parameterType="int" resultType="commentvo">
+		select 
+		commentseq
+		, (case parent when '0' then commentseq ELSE parent	end) parent
+		, depth
+		, seq
+		, imageseq
+		, userid
+		, username
+		, comment
+		, Convert(varchar(10),Getdate(),111) regdate 
+		from comment 
+		where imageseq = #{imageseq}
+		order by parent, depth
+	</select>
+	
+	<insert id="addCommentsec" parameterType="commentvo">
+		insert into comment(parent, depth, seq, imageseq, userid, username, comment, regdate)
+		values(#{parent}, #{depth}, #{seq}, #{imageseq}, #{userid}, #{username}, #{comment}, getdate())
+	</insert>
+	
+	<select id="findparent" parameterType="int" resultType="commentvo">
+		select top 1 * from Comment where parent = #{parent} order by commentseq desc
+	</select>
+	
+
+</mapper>
